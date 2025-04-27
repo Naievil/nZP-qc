@@ -194,8 +194,8 @@ called when a player connects to a server
 */
 void() ClientConnect =
 {
-	//bprint (PRINT_HIGH, self.netname);
-	//bprint (PRINT_HIGH, " entered the game\n");
+	bprint (PRINT_HIGH, self.netname);
+	bprint (PRINT_HIGH, " entered the game\n");
 };
 
 
