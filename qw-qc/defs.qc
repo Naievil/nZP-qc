@@ -59,11 +59,8 @@ float 			teamplay;
 float           serverflags;            // propagated from level to level, used to
 								// keep track of completed episodes
 
-float           total_secrets;
-float           total_monsters;
-
-float           found_secrets;          // number of secrets found
-float           killed_monsters;        // number of monsters killed
+float           rounds;
+float           rounds_change;
 
 
 // spawnparms are used to encode information about clients across server
@@ -94,6 +91,7 @@ entity          msg_entity;                             // destination of single
 void()          main;                                           // only for testing
 
 void()          StartFrame;
+void() 			EndFrame;
 
 void()          PlayerPreThink;
 void()          PlayerPostThink;
@@ -110,6 +108,11 @@ void()          SetNewParms;                    // called when a client first co
 void()          SetChangeParms;                 // call to set parms for self so they can
 									// be saved for a level transition
 
+void()			ParseClientCommand;
+
+string 			CMD_STRING;
+
+void() 			Soft_Restart;
 
 //================================================
 void            end_sys_globals;                // flag for structure dumping
@@ -162,14 +165,23 @@ void            end_sys_globals;                // flag for structure dumping
 
 // stats
 .float          health;
-.float          frags;
+.float          points;
+.float 			kills;
 .float          weapon;                 // one of the IT_SHOTGUN, etc flags
 .string         weaponmodel;
+.string         weapon2model;
 .float          weaponframe;
+.float          weapon2frame;
 .float          currentammo;
-.float          ammo_shells, ammo_nails, ammo_rockets, ammo_cells;
+.float          currentmag;
 
-.float          items;                  // bit flags
+.float 			zoom;
+.float 			weaponskin;
+.float 			weapon2skin;
+.float 			primary_grenades;
+.float 			secondary_grenades;
+.float 			grenades;
+.float 			perks;
 
 .float          takedamage;
 .entity         chain;
@@ -181,6 +193,12 @@ void            end_sys_globals;                // flag for structure dumping
 .float          button0;                // fire
 .float          button1;                // use
 .float          button2;                // jump
+.float 			button3;
+.float 			button4;
+.float 			button5;
+.float 			button6;
+.float 			button7;
+.float 			button8;
 
 .float          impulse;                // weapon changes
 
@@ -202,9 +220,6 @@ void            end_sys_globals;                // flag for structure dumping
 
 .float          teleport_time;  // don't back up
 
-.float          armortype;              // save this fraction of incoming damage
-.float          armorvalue;
-
 .float          waterlevel;             // 0 = not in, 1 = feet, 2 = wast, 3 = eyes
 .float          watertype;              // a contents value
 
@@ -213,6 +228,10 @@ void            end_sys_globals;                // flag for structure dumping
 
 .entity         aiment;
 
+.entity 		head;
+.entity 		larm;
+.entity 		rarm;
+
 .entity         goalentity;             // a movetarget or an enemy
 
 .float          spawnflags;
@@ -220,10 +239,9 @@ void            end_sys_globals;                // flag for structure dumping
 .string         target;
 .string         targetname;
 
-// damage is accumulated through a frame. and sent as one single
-// message, so the super shotgun doesn't generate huge messages
-.float          dmg_take;
-.float          dmg_save;
+.float 			bleed_out;
+.float 			progress_bar;
+
 .entity         dmg_inflictor;
 
 .entity         owner;          // who launched a missile
@@ -234,6 +252,19 @@ void            end_sys_globals;                // flag for structure dumping
 .float          sounds;         // either a cd track number or sound number
 
 .string         noise, noise1, noise2, noise3;  // contains names of wavs to play
+
+.float 			x2_icon;
+.float 			insta_icon;
+.vector 		ADS_Offset;
+.vector 		Flash_Offset;
+.float 			Flash_Size;
+.string 		Weapon_Name;
+.string 		Weapon_Name_Touch;
+.float 			currentmag2;
+.float 			maxspeed;
+.float 			facingenemy;
+.float 			scale;
+.float 			light_lev;
 
 //================================================
 void            end_sys_fields;                 // flag for structure dumping

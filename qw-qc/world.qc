@@ -46,6 +46,22 @@ void() StartFrame =
 
 };
 
+void() EndFrame =
+{
+
+};
+
+void() ParseClientCommand =
+{
+
+};
+
+void() Soft_Restart =
+{
+
+};
+
+
 /*
 ==============================================================================
 
